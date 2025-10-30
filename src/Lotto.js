@@ -20,7 +20,7 @@ class Lotto {
       throw new Error('[ERROR] 로또 번호에 정수가 아닌 값이 있습니다.');
     }
 
-    if (!numbers.every((number) => number < 46 && number > 1)) {
+    if (!numbers.every((number) => number < 46 && number > 0)) {
       throw new Error('[ERROR] 로또 번호에 1부터 45 사이가 아닌 값이 있습니다.');
     }
   }
