@@ -44,18 +44,44 @@ describe('입력값(getLottoPurchaseAmount) 테스트', () => {
   });
 });
 
-// describe('입력값(getWinningNumber) 테스트', () => {
-//   test('로또를 구매한 개수만큼만 생성한다.', () => {
-//     const lottos = LottoFactory.createLotto(5);
+describe('입력값(getWinningNumber) 테스트', () => {
+  test('1부터 45 사이 외의 로또 번호 입력 시 예외가 발생한다.', async () => {
+    mockQuestions(['1,2,3,4,5,50']);
 
-//     expect(lottos).toHaveLength(5);
-//   });
-// });
+    const inputView = new InputView();
+
+    await expect(inputView.getWinningNumber()).rejects.toThrow('[ERROR]');
+  });
+
+  test('정수가 아닌 값 입력 시 예외가 발생한다.', async () => {
+    mockQuestions(['1.5,2,3,4,5,6']);
+
+    const inputView = new InputView();
+
+    await expect(inputView.getWinningNumber()).rejects.toThrow('[ERROR]');
+  });
+
+  test('6개 숫자가 아닌 갯수 입력 시 예외가 발생한다.', async () => {
+    mockQuestions(['1,2,3,4,5']);
+
+    const inputView = new InputView();
+
+    await expect(inputView.getWinningNumber()).rejects.toThrow('[ERROR]');
+  });
+
+  test('중복된 번호 포함 시 예외가 발생한다.', async () => {
+    mockQuestions(['1,2,3,4,5,5']);
+
+    const inputView = new InputView();
+
+    await expect(inputView.getWinningNumber()).rejects.toThrow('[ERROR]');
+  });
+});
 
 // describe('입력값(getBonusNumber) 테스트', () => {
 //   test('로또를 구매한 개수만큼만 생성한다.', () => {
 //     const lottos = LottoFactory.createLotto(5);
-
+//
 //     expect(lottos).toHaveLength(5);
 //   });
 // });

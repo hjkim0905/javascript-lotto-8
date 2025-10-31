@@ -1,20 +1,28 @@
 import { Console } from '@woowacourse/mission-utils';
+import Lotto from '../Lotto.js';
 
 export default class InputView {
   async getLottoPurchaseAmount() {
-    const lottoPurchaseAmount = Number(await Console.readLineAsync());
-    this.validate(lottoPurchaseAmount);
+    const lottoPurchaseAmount = Number((await Console.readLineAsync()).trim());
+    this.validatePurchaseAmount(lottoPurchaseAmount);
 
     Console.print(lottoPurchaseAmount);
 
     return lottoPurchaseAmount;
   }
 
-  async getWinningNumber() {}
+  async getWinningNumber() {
+    const input = await Console.readLineAsync();
+    const winningNumbers = input.split(',').map((number) => Number(number.trim()));
+
+    const winningLotto = new Lotto(winningNumbers);
+
+    return winningLotto;
+  }
 
   async getBonusNumber() {}
 
-  validate(lottoPurchaseAmount) {
+  validatePurchaseAmount(lottoPurchaseAmount) {
     if (!lottoPurchaseAmount) {
       throw new Error('[ERROR] 빈 문자열이 입력되었습니다.');
     }
