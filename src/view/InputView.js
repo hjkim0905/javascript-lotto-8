@@ -6,8 +6,6 @@ export default class InputView {
     const lottoPurchaseAmount = Number((await Console.readLineAsync()).trim());
     this.validatePurchaseAmount(lottoPurchaseAmount);
 
-    Console.print(lottoPurchaseAmount);
-
     return lottoPurchaseAmount;
   }
 
@@ -20,7 +18,12 @@ export default class InputView {
     return winningLotto;
   }
 
-  async getBonusNumber() {}
+  async getBonusNumber(winningLotto) {
+    const bonusNumber = Number((await Console.readLineAsync()).trim());
+    this.validateBonusNumber(bonusNumber, winningLotto);
+
+    return bonusNumber;
+  }
 
   validatePurchaseAmount(lottoPurchaseAmount) {
     if (!lottoPurchaseAmount) {
@@ -37,6 +40,24 @@ export default class InputView {
 
     if (!Number.isInteger(lottoPurchaseAmount / 1000)) {
       throw new Error('[ERROR] 입력값이 1000으로 나눴을 때 정수형 숫자로 나눠떨어지지 않습니다.');
+    }
+  }
+
+  validateBonusNumber(bonusNumber, winningLotto) {
+    if (!bonusNumber) {
+      throw new Error('[ERROR] 빈 문자열이 입력되었습니다.');
+    }
+
+    if (!Number.isInteger(bonusNumber)) {
+      throw new Error('[ERROR] 보너스 번호에 정수가 아닌 값이 있습니다.');
+    }
+
+    if (!(bonusNumber < 46 && bonusNumber > 0)) {
+      throw new Error('[ERROR] 보너스 번호에 1부터 45 사이가 아닌 값이 있습니다.');
+    }
+
+    if (winningLotto.getNumbers().includes(bonusNumber)) {
+      throw new Error('[ERROR] 보너스 번호가 당첨 번호와 중복됩니다.');
     }
   }
 }

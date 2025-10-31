@@ -24,6 +24,10 @@ class Lotto {
       throw new Error('[ERROR] 로또 번호에 1부터 45 사이가 아닌 값이 있습니다.');
     }
   }
+
+  getNumbers() {
+    return this.#numbers;
+  }
 }
 
 export default Lotto;
