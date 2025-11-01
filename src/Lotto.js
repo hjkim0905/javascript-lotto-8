@@ -28,6 +28,18 @@ class Lotto {
   getNumbers() {
     return this.#numbers;
   }
+
+  getMatchingCount(winningNumbers) {
+    const matchingCount = winningNumbers.filter((winningNumber) => {
+      this.#numbers.includes(winningNumber);
+    });
+
+    return matchingCount;
+  }
+
+  hasBonusNumber(bonusNumber) {
+    return this.#numbers.includes(bonusNumber);
+  }
 }
 
 export default Lotto;
