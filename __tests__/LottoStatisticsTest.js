@@ -62,3 +62,29 @@ describe('LottoStatistics 테스트(calculateRankResults)', () => {
     expect(result).toEqual({ 1: 0, 2: 0, 3: 0, 4: 1, 5: 1 });
   });
 });
+
+describe('LottoStatistics 테스트(getPercentageProfit)', () => {
+  test('1등이 1개 있고 구입금액이 1000원이면 수익률은 200000000.0%이다.', () => {
+    const lottoRankResults = { 1: 1, 2: 0, 3: 0, 4: 0, 5: 0 };
+    const lottoPurchaseAmount = 1000;
+
+    const percentageProfit = LottoStatistics.getPercentageProfit(
+      lottoRankResults,
+      lottoPurchaseAmount,
+    );
+
+    expect(percentageProfit).toEqual(200000000.0);
+  });
+
+  test('2등이 1개 있고 5등이 2개 있고 구입금액이 1000000원이면 수익률은 3001.0%이다.', () => {
+    const lottoRankResults = { 1: 0, 2: 1, 3: 0, 4: 0, 5: 2 };
+    const lottoPurchaseAmount = 1000000;
+
+    const percentageProfit = LottoStatistics.getPercentageProfit(
+      lottoRankResults,
+      lottoPurchaseAmount,
+    );
+
+    expect(percentageProfit).toEqual(3001.0);
+  });
+});
