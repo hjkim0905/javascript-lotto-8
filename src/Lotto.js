@@ -25,7 +25,8 @@ class Lotto {
     }
   }
 
-  getMatchingCount(winningNumbers) {
+  getMatchingCount(winningLotto) {
+    const winningNumbers = winningLotto.getNumbers();
     const matchingCount = winningNumbers.filter((winningNumber) =>
       this.#numbers.includes(winningNumber),
     );
@@ -35,6 +36,10 @@ class Lotto {
 
   hasBonusNumber(bonusNumber) {
     return this.#numbers.includes(bonusNumber);
+  }
+
+  getNumbers() {
+    return this.#numbers;
   }
 }
 

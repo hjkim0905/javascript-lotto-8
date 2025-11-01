@@ -16,17 +16,17 @@ export default class InputView {
   }
 
   async getWinningNumber() {
-    const input = await Console.readLineAsync('당첨 번호를 입력해 주세요.\n');
+    const input = await Console.readLineAsync('\n당첨 번호를 입력해 주세요.\n');
     const winningNumbers = input.split(',').map((number) => Number(number.trim()));
 
-    const winningLotto = new Lotto(winningNumbers.sort());
+    const winningLotto = new Lotto(winningNumbers.sort((a, b) => a - b));
 
     return winningLotto;
   }
 
   async getBonusNumber(winningLotto) {
     const bonusNumber = Number(
-      (await Console.readLineAsync('보너스 번호를 입력해 주세요.\n')).trim(),
+      (await Console.readLineAsync('\n보너스 번호를 입력해 주세요.\n')).trim(),
     );
     this.validateBonusNumber(bonusNumber, winningLotto);
 
@@ -34,12 +34,12 @@ export default class InputView {
   }
 
   validatePurchaseAmount(lottoPurchaseAmount) {
-    if (!lottoPurchaseAmount) {
-      throw new Error('[ERROR] 빈 문자열이 입력되었습니다.');
-    }
-
     if (Number.isNaN(lottoPurchaseAmount)) {
       throw new Error('[ERROR] 숫자가 아닌 값이 입력되었습니다.');
+    }
+
+    if (!lottoPurchaseAmount) {
+      throw new Error('[ERROR] 빈 문자열이 입력되었습니다.');
     }
 
     if (lottoPurchaseAmount < 1000) {

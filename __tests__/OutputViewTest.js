@@ -1,4 +1,5 @@
 import OutputView from '../src/view/OutputView.js';
+import Lotto from '../src/Lotto.js';
 import { Console } from '@woowacourse/mission-utils';
 
 const mockPrint = () => {
@@ -14,7 +15,7 @@ describe('OutputView 테스트(printlottoQuantity)', () => {
     const outputView = new OutputView();
     outputView.printlottoQuantity(1);
 
-    expect(Console.print).toHaveBeenCalledWith('1개를 구매했습니다.\n');
+    expect(Console.print).toHaveBeenCalledWith('\n1개를 구매했습니다.');
   });
 });
 
@@ -25,14 +26,13 @@ describe('OutputView 테스트(printCreatedLottos)', () => {
 
   test('생성된 로또 번호들을 출력한다.', () => {
     const outputView = new OutputView();
-    const lottos = [
-      [1, 2, 3, 4, 5, 6],
-      [7, 8, 9, 10, 11, 12],
-    ];
+    const lottos = [new Lotto([1, 2, 3, 4, 5, 6]), new Lotto([7, 8, 9, 10, 11, 12])];
 
     outputView.printCreatedLottos(lottos);
 
-    expect(Console.print).toHaveBeenCalledWith('[1, 2, 3, 4, 5, 6]\n[7, 8, 9, 10, 11, 12]');
+    expect(Console.print).toHaveBeenCalledTimes(2);
+    expect(Console.print).toHaveBeenNthCalledWith(1, '[1, 2, 3, 4, 5, 6]');
+    expect(Console.print).toHaveBeenNthCalledWith(2, '[7, 8, 9, 10, 11, 12]');
   });
 });
 

@@ -2,12 +2,13 @@ import { Console } from '@woowacourse/mission-utils';
 
 export default class OutputView {
   printlottoQuantity(lottoQuantity) {
-    Console.print(`${lottoQuantity}개를 구매했습니다.\n`);
+    Console.print(`\n${lottoQuantity}개를 구매했습니다.`);
   }
 
   printCreatedLottos(lottos) {
-    const lottoStrings = lottos.map((lotto) => `[${lotto.join(', ')}]`).join('\n');
-    Console.print(lottoStrings);
+    lottos.forEach((lotto) => {
+      Console.print(`[${lotto.getNumbers().join(', ')}]`);
+    });
   }
 
   printResult(lottoRankResults, percentageProfit) {

@@ -5,9 +5,12 @@ export default class LottoFactory {
   static createLotto(lottoQuantity) {
     const lottoArray = Array.from(
       { length: lottoQuantity },
-      () => new Lotto(Random.pickUniqueNumbersInRange(1, 45, 6)),
+      () => {
+        const numbers = Random.pickUniqueNumbersInRange(1, 45, 6);
+        return new Lotto(numbers.sort((a, b) => a - b));
+      },
     );
 
-    return lottoArray.sort();
+    return lottoArray;
   }
 }
