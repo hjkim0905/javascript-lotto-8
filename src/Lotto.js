@@ -26,11 +26,11 @@ class Lotto {
   }
 
   getMatchingCount(winningNumbers) {
-    const matchingCount = winningNumbers.filter((winningNumber) => {
-      this.#numbers.includes(winningNumber);
-    });
+    const matchingCount = winningNumbers.filter((winningNumber) =>
+      this.#numbers.includes(winningNumber),
+    );
 
-    return matchingCount;
+    return matchingCount.length;
   }
 
   hasBonusNumber(bonusNumber) {

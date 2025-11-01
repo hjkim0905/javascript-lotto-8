@@ -11,6 +11,10 @@ export default class InputView {
     return lottoPurchaseAmount;
   }
 
+  getLottoQuantity(lottoPurchaseAmount) {
+    return lottoPurchaseAmount / 1000;
+  }
+
   async getWinningNumber() {
     const input = await Console.readLineAsync('당첨 번호를 입력해 주세요.\n');
     const winningNumbers = input.split(',').map((number) => Number(number.trim()));
