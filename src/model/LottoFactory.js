@@ -3,9 +3,11 @@ import { Random } from '@woowacourse/mission-utils';
 
 export default class LottoFactory {
   static createLotto(lottoQuantity) {
-    return Array.from(
+    const lottoArray = Array.from(
       { length: lottoQuantity },
       () => new Lotto(Random.pickUniqueNumbersInRange(1, 45, 6)),
     );
+
+    return lottoArray.sort();
   }
 }

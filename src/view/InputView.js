@@ -13,7 +13,7 @@ export default class InputView {
     const input = await Console.readLineAsync();
     const winningNumbers = input.split(',').map((number) => Number(number.trim()));
 
-    const winningLotto = new Lotto(winningNumbers);
+    const winningLotto = new Lotto(winningNumbers.sort());
 
     return winningLotto;
   }
