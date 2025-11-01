@@ -56,7 +56,7 @@ export default class InputView {
       throw new Error('[ERROR] 보너스 번호에 1부터 45 사이가 아닌 값이 있습니다.');
     }
 
-    if (winningLotto.getNumbers().includes(bonusNumber)) {
+    if (winningLotto.hasBonusNumber(bonusNumber)) {
       throw new Error('[ERROR] 보너스 번호가 당첨 번호와 중복됩니다.');
     }
   }
