@@ -3,14 +3,16 @@ import Lotto from '../Lotto.js';
 
 export default class InputView {
   async getLottoPurchaseAmount() {
-    const lottoPurchaseAmount = Number((await Console.readLineAsync()).trim());
+    const lottoPurchaseAmount = Number(
+      (await Console.readLineAsync('구입금액을 입력해 주세요.\n')).trim(),
+    );
     this.validatePurchaseAmount(lottoPurchaseAmount);
 
     return lottoPurchaseAmount;
   }
 
   async getWinningNumber() {
-    const input = await Console.readLineAsync();
+    const input = await Console.readLineAsync('당첨 번호를 입력해 주세요.\n');
     const winningNumbers = input.split(',').map((number) => Number(number.trim()));
 
     const winningLotto = new Lotto(winningNumbers.sort());
@@ -19,7 +21,9 @@ export default class InputView {
   }
 
   async getBonusNumber(winningLotto) {
-    const bonusNumber = Number((await Console.readLineAsync()).trim());
+    const bonusNumber = Number(
+      (await Console.readLineAsync('보너스 번호를 입력해 주세요.\n')).trim(),
+    );
     this.validateBonusNumber(bonusNumber, winningLotto);
 
     return bonusNumber;
