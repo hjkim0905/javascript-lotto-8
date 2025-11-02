@@ -3,12 +3,17 @@ import Lotto from '../Lotto.js';
 
 export default class InputView {
   async getLottoPurchaseAmount() {
-    const lottoPurchaseAmount = Number(
-      (await Console.readLineAsync('구입금액을 입력해 주세요.\n')).trim(),
-    );
-    this.validatePurchaseAmount(lottoPurchaseAmount);
+    try {
+      const lottoPurchaseAmount = Number(
+        (await Console.readLineAsync('구입금액을 입력해 주세요.\n')).trim(),
+      );
+      this.validatePurchaseAmount(lottoPurchaseAmount);
 
-    return lottoPurchaseAmount;
+      return lottoPurchaseAmount;
+    } catch (error) {
+      Console.print(error.message);
+      return this.getLottoPurchaseAmount();
+    }
   }
 
   getLottoQuantity(lottoPurchaseAmount) {
@@ -16,30 +21,36 @@ export default class InputView {
   }
 
   async getWinningNumber() {
-    const input = await Console.readLineAsync('\n당첨 번호를 입력해 주세요.\n');
-    const winningNumbers = input.split(',').map((number) => Number(number.trim()));
+    try {
+      const input = await Console.readLineAsync('\n당첨 번호를 입력해 주세요.\n');
+      const winningNumbers = input.split(',').map((number) => Number(number.trim()));
 
-    const winningLotto = new Lotto(winningNumbers.sort((a, b) => a - b));
+      const winningLotto = new Lotto(winningNumbers.sort((a, b) => a - b));
 
-    return winningLotto;
+      return winningLotto;
+    } catch (error) {
+      Console.print(error.message);
+      return this.getWinningNumber();
+    }
   }
 
   async getBonusNumber(winningLotto) {
-    const bonusNumber = Number(
-      (await Console.readLineAsync('\n보너스 번호를 입력해 주세요.\n')).trim(),
-    );
-    this.validateBonusNumber(bonusNumber, winningLotto);
+    try {
+      const bonusNumber = Number(
+        (await Console.readLineAsync('\n보너스 번호를 입력해 주세요.\n')).trim(),
+      );
+      this.validateBonusNumber(bonusNumber, winningLotto);
 
-    return bonusNumber;
+      return bonusNumber;
+    } catch (error) {
+      Console.print(error.message);
+      return this.getBonusNumber(winningLotto);
+    }
   }
 
   validatePurchaseAmount(lottoPurchaseAmount) {
     if (Number.isNaN(lottoPurchaseAmount)) {
       throw new Error('[ERROR] 숫자가 아닌 값이 입력되었습니다.');
-    }
-
-    if (!lottoPurchaseAmount) {
-      throw new Error('[ERROR] 빈 문자열이 입력되었습니다.');
     }
 
     if (lottoPurchaseAmount < 1000) {
@@ -52,8 +63,8 @@ export default class InputView {
   }
 
   validateBonusNumber(bonusNumber, winningLotto) {
-    if (!bonusNumber) {
-      throw new Error('[ERROR] 빈 문자열이 입력되었습니다.');
+    if (Number.isNaN(bonusNumber)) {
+      throw new Error('[ERROR] 숫자가 아닌 값이 입력되었습니다.');
     }
 
     if (!Number.isInteger(bonusNumber)) {
