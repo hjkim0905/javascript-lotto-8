@@ -57,3 +57,52 @@
   - [x] 출력 형식 맞추기 (`"3개 일치 (5,000원) - ~개\n4개 일치 (50,000원) - ~개\n5개 일치 (1,500,000원) - ~개\n5개 일치, 보너스 볼 일치 (30,000,000원) - ~개\n6개 일치 (2,000,000,000원) - ~개"`)
 - [x] 총 수익률 출력 (`Console.print()` 사용)
   - [x] 출력 형식 맞추기 (`"총 수익률은 ~%입니다."`)
+
+---
+
+```markdown
+javascript-lotto-8/
+│
+├── **tests**/ // 테스트 파일들
+│ ├── ApplicationTest.js // 전체 애플리케이션 통합 테스트
+│ ├── LottoTest.js // Lotto 클래스 단위 테스트
+│ ├── LottoFactoryTest.js // LottoFactory 단위 테스트
+│ ├── InputViewTest.js // InputView 입력 검증 테스트
+│ ├── RankFinderTest.js // RankFinder 등수 판정 테스트
+│ └── LottoStatisticsTest.js // LottoStatistics 통계 계산 테스트
+│
+└── src/ // 소스 코드
+├── index.js // 애플리케이션 진입점
+├── App.js // 메인 애플리케이션 클래스
+├── Lotto.js // Lotto 클래스
+│
+├── constants/ // 상수 정의
+│ ├── calculation.js // 수익률 계산 관련 상수
+│ ├── lotto.js // 로또 번호 관련 상수
+│ ├── messages.js // 에러 메시지 상수
+│ └── ranks.js // 당첨 등수 및 금액 정보
+│
+├── model/ // 도메인 모델
+│ ├── LottoFactory.js // 로또 생성 Factory 패턴
+│ ├── LottoStatistics.js // 당첨 통계 및 수익률 계산
+│ └── RankFinder.js // 등수 판정 로직
+│
+├── controller/ // 컨트롤러
+│ └── LottoController.js // 로또 게임 로직 제어
+│
+└── view/ // 입력/출력 처리
+├── InputView.js // 사용자 입력 및 검증 처리
+└── OutputView.js // 결과 출력 처리
+```
+
+### 💻 개발 프로세스 💻
+
+이번 3주차 과제에서는 2주차의 경험을 바탕으로 Bottom-Up TDD 방식에 도전했습니다. Lotto 클래스부터 시작하여 LottoFactory, InputView, RankFinder, LottoStatistics 순서로 작은 단위부터 테스트를 작성하고 구현했습니다. 마지막에 Controller에서 통합한 뒤 ApplicationTest로 최종 검증하는 방식으로 진행했습니다. 각 클래스마다 실패하는 테스트를 먼저 작성한 후, 최소한의 코드로 테스트를 통과시키고, 리팩토링하는 TDD 사이클을 따랐습니다. 또한 로또 수량만큼 인스턴스를 반복 생성하는 대신, Factory 패턴을 적용하여 LottoFactory.createLotto() 메서드로 재사용 가능한 구조를 만들었습니다.
+
+### 👷‍♂️ 설계 의도 👷‍♂️
+
+MVC 패턴을 적용하여 관심사를 명확히 분리했습니다. Model에는 LottoFactory(로또 생성), LottoStatistics(통계 계산), RankFinder(등수 판정) 등 모든 비즈니스 로직을 집중시켰습니다. 2주차에 utils 폴더에 비즈니스 로직을 넣었던 경험을 바탕으로, 이번엔 명확히 Model로 역할을 통합했습니다. View는 InputView(입력 및 검증)와 OutputView(결과 출력)로 사용자 인터페이스를 분리했고, Controller는 LottoController에서 오로지 흐름 제어만 담당하도록 설계했습니다. 입력부터 로또 생성, 당첨 번호 입력, 통계 계산, 출력까지의 전체 플로우를 제어하는 역할입니다. Factory 패턴을 적용하여 LottoFactory 클래스를 만들었습니다. 구매한 로또 수량만큼 인스턴스를 반복 생성하는 것보다, 재사용 가능한 팩토리 클래스로 객체 생성 로직을 캡슐화했습니다. static 메서드를 사용하여 상태 접근이 필요 없는 객체 생성 작업을 더욱 명확하게 표현했습니다. 제공된 Lotto 클래스의 #numbers 필드 제약을 활용하여 캡슐화 원칙을 지켰습니다. 데이터를 가진 객체가 그 데이터를 사용하는 로직도 가지도록 getMatchingCount(), hasBonusNumber() 메서드를 Lotto 클래스 내부에 정의했습니다.
+
+### ❓ 어려웠던 점 및 학습한 내용 ❓
+
+제공된 Lotto 클래스의 제약이 처음엔 답답했지만, 이것이 캡슐화를 강제하는 장치임을 깨달았습니다. #numbers 외 필드를 추가할 수 없고 private 접근제어자도 변경할 수 없다는 제약 속에서, getter로 데이터를 꺼내 비교하는 대신 객체가 스스로 비교 로직을 수행하도록 설계하는 방법을 배웠습니다. Bottom-Up TDD를 시도하면서 단위 테스트는 성공적이었으나, 통합 단계에서 예상치 못한 에러가 발생했습니다. getMatchingCount() 메서드가 배열 대신 Lotto 객체를 받아야 한다는 것을 뒤늦게 깨닫고 수정했는데, 각 모듈이 주고받는 타입을 사전에 명확히 정의하지 않아 발생한 문제였습니다. 이를 통해 TDD는 훌륭하지만 인터페이스 설계가 선행되어야 한다는 교훈을 얻었습니다. 2주차에서 .bind(this)를 사용했다면 이번엔 화살표 함수를 적극 활용하여 코드를 간결하게 만들었습니다. 렉시컬 this의 특성을 이해하고 적절히 활용하는 방법을 익혔습니다. 매직넘버 처리 기준도 변경했는데, 1주차에선 이해 가능한 리터럴은 남겨뒀지만 이번엔 모든 매직넘버를 의미 있는 이름으로 상수화하여 유지보수성을 높였습니다.
