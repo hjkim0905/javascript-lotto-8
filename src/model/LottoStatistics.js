@@ -1,5 +1,6 @@
 import RankFinder from './RankFinder.js';
 import { RANKS } from '../constants/ranks.js';
+import { CALCULATION } from '../constants/calculation.js';
 
 export default class LottoStatistics {
   static calculateRankResults(lottos, winningLotto, bonusNumber) {
@@ -34,7 +35,7 @@ export default class LottoStatistics {
       return total + currentRank.winningAmount * count;
     }, 0);
 
-    const percentageProfit = (totalWinningAmount / lottoPurchaseAmount) * 100;
-    return Math.round(percentageProfit * 10) / 10;
+    const percentageProfit = (totalWinningAmount / lottoPurchaseAmount) * CALCULATION.PERCENTAGE_MULTIPLIER;
+    return Math.round(percentageProfit * CALCULATION.DECIMAL_PRECISION) / CALCULATION.DECIMAL_PRECISION;
   }
 }

@@ -1,3 +1,6 @@
+import { LOTTO } from './constants/lotto.js';
+import { ERROR_MESSAGES } from './constants/messages.js';
+
 class Lotto {
   #numbers;
 
@@ -7,21 +10,21 @@ class Lotto {
   }
 
   #validate(numbers) {
-    if (numbers.length !== 6) {
-      throw new Error('[ERROR] 로또 번호는 6개여야 합니다.');
+    if (numbers.length !== LOTTO.NUMBER_COUNT) {
+      throw new Error(ERROR_MESSAGES.INVALID_LOTTO_COUNT);
     }
 
     const uniqueArr = new Set(numbers);
     if (numbers.length !== uniqueArr.size) {
-      throw new Error('[ERROR] 로또 번호에 중복된 숫자가 있습니다.');
+      throw new Error(ERROR_MESSAGES.DUPLICATE_LOTTO_NUMBERS);
     }
 
     if (!numbers.every((number) => Number.isInteger(number))) {
-      throw new Error('[ERROR] 로또 번호에 정수가 아닌 값이 있습니다.');
+      throw new Error(ERROR_MESSAGES.LOTTO_NUMBER_NOT_INTEGER);
     }
 
-    if (!numbers.every((number) => number < 46 && number > 0)) {
-      throw new Error('[ERROR] 로또 번호에 1부터 45 사이가 아닌 값이 있습니다.');
+    if (!numbers.every((number) => number <= LOTTO.MAX_NUMBER && number >= LOTTO.MIN_NUMBER)) {
+      throw new Error(ERROR_MESSAGES.LOTTO_NUMBER_OUT_OF_RANGE);
     }
   }
 

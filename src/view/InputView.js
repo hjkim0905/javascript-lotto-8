@@ -1,5 +1,7 @@
 import { Console } from '@woowacourse/mission-utils';
 import Lotto from '../Lotto.js';
+import { LOTTO } from '../constants/lotto.js';
+import { ERROR_MESSAGES } from '../constants/messages.js';
 
 export default class InputView {
   async getLottoPurchaseAmount() {
@@ -17,7 +19,7 @@ export default class InputView {
   }
 
   getLottoQuantity(lottoPurchaseAmount) {
-    return lottoPurchaseAmount / 1000;
+    return lottoPurchaseAmount / LOTTO.PRICE;
   }
 
   async getWinningNumber() {
@@ -50,33 +52,33 @@ export default class InputView {
 
   validatePurchaseAmount(lottoPurchaseAmount) {
     if (Number.isNaN(lottoPurchaseAmount)) {
-      throw new Error('[ERROR] 숫자가 아닌 값이 입력되었습니다.');
+      throw new Error(ERROR_MESSAGES.INVALID_NUMBER);
     }
 
-    if (lottoPurchaseAmount < 1000) {
-      throw new Error('[ERROR] 1000 미만 값이 입력되었습니다.');
+    if (lottoPurchaseAmount < LOTTO.PRICE) {
+      throw new Error(ERROR_MESSAGES.BELOW_MINIMUM_PURCHASE);
     }
 
-    if (!Number.isInteger(lottoPurchaseAmount / 1000)) {
-      throw new Error('[ERROR] 입력값이 1000으로 나눴을 때 정수형 숫자로 나눠떨어지지 않습니다.');
+    if (!Number.isInteger(lottoPurchaseAmount / LOTTO.PRICE)) {
+      throw new Error(ERROR_MESSAGES.INVALID_PURCHASE_UNIT);
     }
   }
 
   validateBonusNumber(bonusNumber, winningLotto) {
     if (Number.isNaN(bonusNumber)) {
-      throw new Error('[ERROR] 숫자가 아닌 값이 입력되었습니다.');
+      throw new Error(ERROR_MESSAGES.INVALID_NUMBER);
     }
 
     if (!Number.isInteger(bonusNumber)) {
-      throw new Error('[ERROR] 보너스 번호에 정수가 아닌 값이 있습니다.');
+      throw new Error(ERROR_MESSAGES.BONUS_NUMBER_NOT_INTEGER);
     }
 
-    if (!(bonusNumber < 46 && bonusNumber > 0)) {
-      throw new Error('[ERROR] 보너스 번호에 1부터 45 사이가 아닌 값이 있습니다.');
+    if (!(bonusNumber <= LOTTO.MAX_NUMBER && bonusNumber >= LOTTO.MIN_NUMBER)) {
+      throw new Error(ERROR_MESSAGES.BONUS_NUMBER_OUT_OF_RANGE);
     }
 
     if (winningLotto.hasBonusNumber(bonusNumber)) {
-      throw new Error('[ERROR] 보너스 번호가 당첨 번호와 중복됩니다.');
+      throw new Error(ERROR_MESSAGES.BONUS_NUMBER_DUPLICATE);
     }
   }
 }
