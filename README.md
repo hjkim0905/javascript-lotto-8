@@ -1,5 +1,4 @@
 # javascript-lotto-precourse
-
 ## 과제3 - <🎱  로또 🎱> 기능 구현 목록
 
 ### 입력 처리
